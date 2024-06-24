@@ -1,12 +1,22 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 import random
+import csv 
+import pandas as pd
+
 """
 These are Function Headers
 Complete the functions to ensure they return expected results
 Replace these comments with documenation about the program
 @author [add your name]
 """
+
+with open('./graph.csv', newline='') as csvfile:
+    routes_us = pd.read_csv(csvfile)
+    
+
+graph = nx.from_pandas_dataframe(routes_us, source = 'Source Airport', target = 'Dest Airport',
+                        edge_attr = 'number of flights',create_using = nx.DiGraph())
 
 def mybfs(G, source, target):
     """
