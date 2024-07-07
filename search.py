@@ -17,7 +17,7 @@ def main():
         routes = pd.read_csv(csvfile)
     
     graph = nx.from_pandas_edgelist(routes, source = 'Source', target = 'Dest',
-        edge_attr = None, create_using = nx.DiGraph())
+        edge_attr = 'distance', create_using = nx.DiGraph())
     
     plt.figure(figsize=(10, 9))
     nx.draw_networkx(graph)
