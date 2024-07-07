@@ -11,12 +11,28 @@ Replace these comments with documenation about the program
 @author [add your name]
 """
 
-with open('./graph.csv', newline='') as csvfile:
-    routes_us = pd.read_csv(csvfile)
+def main():
+        
+    with open('./graph.csv', newline='') as csvfile:
+        routes = pd.read_csv(csvfile)
     
+    graph = nx.from_pandas_edgelist(routes, source = 'Source', target = 'Dest',
+        edge_attr = None, create_using = nx.DiGraph())
+    
+    plt.figure(figsize=(10, 9))
+    nx.draw_networkx(graph)
+    plt.savefig("dist_map.png", format="PNG", dpi = 300)
+    plt.show()
 
-graph = nx.from_pandas_dataframe(routes_us, source = 'Source Airport', target = 'Dest Airport',
-                        edge_attr = 'number of flights',create_using = nx.DiGraph())
+    # G = nx.balanced_tree(5,2)
+    # source = 0
+    # target = 9
+    # bfs = mybfs(G, source, target)
+    # print(bfs)
+    # colors = ['red' if edge in bfs else 'blue' for edge in G.edges()]
+    # markers = ['green' if node in [source,target] else 'blue' for node in G.nodes()]
+    # nx.draw(G, edge_color = colors, node_color = markers, with_labels=True)
+    # plt.savefig("example_bfs.png") #or use plt.show() to display
 
 def mybfs(G, source, target):
     """
@@ -33,12 +49,6 @@ def mydfs(G, source, target):
 def myastar(G, source, target):
     """
     Return the list of nodes in the path and total cost like ([1,2,3],9)
-    """
-    pass
-
-def main():
-    """
-    Main body of your code below.
     """
     pass
 
