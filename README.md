@@ -122,6 +122,8 @@ Update the README to answer the following questions:
 
     Summarize and then explain what ChatGPT gets right about BFS and what it misses out on.
 
+    ChatGPT correctly describes the basic steps of BFS, that the search explores some data structures and prioritizes exploring nodes at the same level before moving onto deeper level. However, ChatGPT misses the fact that BFS can be used to find the shortest path between two nodes in an unweighted graph, so the search is not applicable to graphs of all conditions.
+
 2. I asked ChatGPT "Does it make sense to use BFS on a Binary Search Tree?" ... it responded with:
 
     ```text
@@ -135,5 +137,13 @@ Update the README to answer the following questions:
     Explain why ChatGPT is completely wrong.
 
 3. Explain when greedy searching can perform worse than uninformed search. Create a graph that demonstrates this and include the generated images below. _Hint_ you may need to create some fake data but in the same format that you used to encode the Seattle data.
-4. Try reversing directions and going from Columbia City to Ballad. Do you get the same resulting paths for each of the algorithms? Explain why or why not and show the new images below.
+
+Greedy search can perform worse than uninformed search when greedy fails to search through the node that would deliver optimal option 
+in the long run, as greedy search could eliminate certain nodes early on and does not get to explore all nodes.
+
+4. Try reversing directions and going from Columbia City to Ballard. Do you get the same resulting paths for each of the algorithms? Explain why or why not and show the new images below.
+
 5. What are your thoughts about this homework? Did you find any parts particularly challenging? What changes would you make to improve the learning experience for future students?
+
+Since I'm not experienced using networkx graphs, I got stuck pretty early on when I needed to create a graph based on the given data. 
+I wish there are more resources provided to deepen understanding of how to use networkx and techniques relevant to this homework.
