@@ -3,6 +3,7 @@ import networkx as nx
 import random
 import csv 
 import pandas as pd
+from collections import deque, defaultdict
 
 """
 These are Function Headers
@@ -24,27 +25,60 @@ def main():
     plt.savefig("dist_map.png", format="PNG", dpi = 300)
     plt.show()
 
-    # G = nx.balanced_tree(5,2)
-    # source = 0
-    # target = 9
-    # bfs = mybfs(G, source, target)
-    # print(bfs)
-    # colors = ['red' if edge in bfs else 'blue' for edge in G.edges()]
-    # markers = ['green' if node in [source,target] else 'blue' for node in G.nodes()]
-    # nx.draw(G, edge_color = colors, node_color = markers, with_labels=True)
-    # plt.savefig("example_bfs.png") #or use plt.show() to display
+    G = nx.balanced_tree(5,2)
+    source = 0
+    target = 9
+    bfs = mybfs(G, source, target)
+    print(bfs)
+    colors = ['red' if edge in bfs else 'blue' for edge in G.edges()]
+    markers = ['green' if node in [source,target] else 'blue' for node in G.nodes()]
+    nx.draw(G, edge_color = colors, node_color = markers, with_labels=True)
+    plt.savefig("example_bfs.png") #or use plt.show() to display
+
+    dfs = mydfs(G, source, target)
+    print(dfs)
+    colors = ['red' if edge in dfs else 'blue' for edge in G.edges()]
+    markers = ['green' if node in [source, target] else 'blue' for node in G.nodes()]
+    nx.draw(G, edge_color = colors, node_color = markers, with_labels=True)
+    plt.savefig("example_dfs.png") #or use plt.show() to display
 
 def mybfs(G, source, target):
     """
     Return the searched edges as list of tuples
     """
-    pass #pass is a placeholder for an empty function, you will need to remove this
-    
-def mydfs(G, source, target):
+    q = deque()
+
+    target[source] = True
+    q.append(source)
+
+    while q:
+        currNode = q.popleft()
+        print(currNode, end=" ")
+
+        for n in G[currNode]:
+            if not target[n]:
+                target[n] = True
+                q.append(n)
+
+# def __init__(self):
+#     self.graph = defaultdict(list)
+
+# visited vs. target - aren't they different things?
+def DFSUtil(G, source, target):
     """
     Return the searched edges as list of tuples
     """
-    pass
+
+    target.add(source)
+    print(source, end= ' ')
+
+    for n in G.graph[source]:
+        if n not in target:
+            G.DFSUtil(n, target)
+
+def mydfs(G, source, target):
+    target = set()
+    G.DFSUtil(source, target)
 
 def myastar(G, source, target):
     """
