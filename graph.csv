@@ -1,33 +1,34 @@
-Ballard, Phinney Ridge, 6
-Ballard, Magnolia, 7
-Ballard, Fremont, 4
-Ballard, Queen Anne, 9
-Phinney Ridge, Fremont, 3
-Phinney Ridge, Green Lake, 3
-Green Lake, Ravenna, 4
-Green Lake, Wallingford, 3
-Green Lake, University District, 5
-Ravenna, University District, 5
-University District, Wallingford, 4
-University District, Capitol Hill, 8
-Wallingford, Capitol Hill, 9
-Wallingford, Queen Anne, 9
-Wallingford, Fremont, 3
-Fremont, Queen Anne, 7
-Magnolia, Queen Anne, 5
-Queen Anne, South Lake Union, 4
-Queen Anne, Belltown, 3
-Belltown, South Lake Union, 2
-Belltown, Downtown, 6
-South Lake Union, Capital Hill, 5
-South Lake Union, Downtown, 5
-Capitol Hill, Downtown, 7
-Downtown, Pioneer Square, 4
-Downtown, International District, 6
-Pioneer Square, International District, 4
-Pioneer Square, Sodo, 3
-International District, Sodo, 7
-Sodo, Columbia City, 5
-Sodo, Beacon Hill, 4
-Beacon Hill, Columbia City, 4
-West Seattle, Sodo, 8
+Source,Dest,distance
+Ballard,Phinney Ridge,6
+Ballard,Magnolia,7
+Ballard,Fremont,4
+Ballard,Queen Anne,9
+Phinney Ridge,Fremont,3
+Phinney Ridge,Green Lake,3
+Green Lake,Ravenna,4
+Green Lake,Wallingford,3
+Green Lake,University District,5
+Ravenna,University District,5
+University District,Wallingford,4
+University District,Capitol Hill,8
+Wallingford,Capitol Hill,9
+Wallingford,Queen Anne,9
+Wallingford,Fremont,3
+Fremont,Queen Anne,7
+Magnolia,Queen Anne,5
+Queen Anne,South Lake Union,4
+Queen Anne,Belltown,3
+Belltown,South Lake Union,2
+Belltown,Downtown,6
+South Lake Union,Capitol Hill,5
+South Lake Union,Downtown,5
+Capitol Hill,Downtown,7
+Downtown,Pioneer Square,4
+Downtown,International District,6
+Pioneer Square,International District,4
+Pioneer Square,Sodo,3
+International District,Sodo,7
+Sodo,Columbia City,5
+Sodo,Beacon Hill,4
+Beacon Hill,Columbia City,4
+West Seattle,Sodo,8

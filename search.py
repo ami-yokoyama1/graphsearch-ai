@@ -15,50 +15,65 @@ Replace these comments with documenation about the program
 def main():
         
     with open('./graph.csv', newline='') as csvfile:
-        routes = pd.read_csv(csvfile)
-    
+        routes = pd.read_csv(csvfile, header= 0, usecols = ['Source', 'Dest', 'distance'])
+
     graph = nx.from_pandas_edgelist(routes, source = 'Source', target = 'Dest',
         edge_attr = 'distance', create_using = nx.DiGraph())
     
-    plt.figure(figsize=(10, 9))
-    nx.draw_networkx(graph)
-    plt.savefig("dist_map.png", format="PNG", dpi = 300)
-    plt.show()
+    # graph of the entire map:
+    # plt.figure(figsize=(10, 9))
+    # nx.draw_networkx(graph)
+    # plt.savefig("dist_map.png", format="PNG", dpi = 300)
+    # plt.show()
 
-    G = nx.balanced_tree(5,2)
-    source = 0
-    target = 9
+    # prints all edges sourced from Fremont:
+    # print(list(nx.bfs_edges(graph, source = 'Fremont')))
+
+    G = nx.balanced_tree(5,2, create_using=nx.DiGraph(incoming_graph_data=graph))
+    source = 'Fremont'
+    target = 'Ballard'
     bfs = mybfs(G, source, target)
     print(bfs)
     colors = ['red' if edge in bfs else 'blue' for edge in G.edges()]
     markers = ['green' if node in [source,target] else 'blue' for node in G.nodes()]
     nx.draw(G, edge_color = colors, node_color = markers, with_labels=True)
     plt.savefig("example_bfs.png") #or use plt.show() to display
+    plt.show()
 
-    dfs = mydfs(G, source, target)
-    print(dfs)
-    colors = ['red' if edge in dfs else 'blue' for edge in G.edges()]
-    markers = ['green' if node in [source, target] else 'blue' for node in G.nodes()]
-    nx.draw(G, edge_color = colors, node_color = markers, with_labels=True)
-    plt.savefig("example_dfs.png") #or use plt.show() to display
+    # dfs = mydfs(G, source, target)
+    # print(dfs)
+    # colors = ['red' if edge in dfs else 'blue' for edge in G.edges()]
+    # markers = ['green' if node in [source, target] else 'blue' for node in G.nodes()]
+    # nx.draw(G, edge_color = colors, node_color = markers, with_labels=True)
+    # plt.savefig("example_dfs.png") #or use plt.show() to display
 
 def mybfs(G, source, target):
     """
     Return the searched edges as list of tuples
     """
-    q = deque()
+    # if not G.has_key(source):
+    #     raise AttributeError("The source '%s' is not in the graph" % source)
+    # if not G.has_key(target):
+    #     raise AttributeError("The target '%s' is not in the graph" % target)
 
-    target[source] = True
-    q.append(source)
+    parents = {source: None}
+    queue = deque([source])
+    while queue:
+        node = queue.popleft()
+        for neighbor in G[node]:
+            if neighbor not in parents:
+                parents[neighbor] = node
+                queue.append(neighbor)
+                if node == target:
+                    break
 
-    while q:
-        currNode = q.popleft()
-        print(currNode, end=" ")
+    path = [target]
+    while parents[target] is not None:
+        path.insert(0, parents[target])
+        target = parents[target]
 
-        for n in G[currNode]:
-            if not target[n]:
-                target[n] = True
-                q.append(n)
+    return path
+
 
 # def __init__(self):
 #     self.graph = defaultdict(list)
