@@ -64,7 +64,7 @@ def mybfs(G, source, target):
             if neighbor not in parents:
                 parents[neighbor] = node
                 queue.append(neighbor)
-                if node == target:
+                if neighbor == target:
                     break
 
     path = [target]
