@@ -23,7 +23,7 @@ def main():
     # graph of the entire map:
     # plt.figure(figsize=(10, 9))
     # nx.draw_networkx(graph)
-    # plt.savefig("dist_map.png", format="PNG", dpi = 300)
+    # plt.savefig("dist_map.png", format="PNG", dpei = 300)
     # plt.show()
 
     # prints all edges sourced from Fremont:
@@ -74,26 +74,23 @@ def mybfs(G, source, target):
 
     return path
 
-
-# def __init__(self):
-#     self.graph = defaultdict(list)
-
-# visited vs. target - aren't they different things?
-def DFSUtil(G, source, target):
+def mydfs(G, source, target):
     """
     Return the searched edges as list of tuples
     """
+    path = []
 
-    target.add(source)
-    print(source, end= ' ')
-
-    for n in G.graph[source]:
-        if n not in target:
-            G.DFSUtil(n, target)
-
-def mydfs(G, source, target):
-    target = set()
-    G.DFSUtil(source, target)
+    queue = []
+    queue.append(source)
+    while queue:
+        node = queue.pop()
+        if node not in path:
+            path.append(node)
+            if node == target:
+                break
+            queue.extend(G[node])
+    
+    return path
 
 def myastar(G, source, target):
     """
