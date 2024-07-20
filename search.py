@@ -4,6 +4,7 @@ import random
 import csv 
 import pandas as pd
 from collections import deque, defaultdict
+import heapq
 
 """
 These are Function Headers
@@ -29,23 +30,24 @@ def main():
     # prints all edges sourced from Fremont:
     # print(list(nx.bfs_edges(graph, source = 'Fremont')))
 
-    G = nx.balanced_tree(5,2, create_using=nx.DiGraph(incoming_graph_data=graph))
     source = 'Fremont'
     target = 'Ballard'
-    bfs = mybfs(G, source, target)
+    bfs = mybfs(graph, source, target)
     print(bfs)
-    colors = ['red' if edge in bfs else 'blue' for edge in G.edges()]
-    markers = ['green' if node in [source,target] else 'blue' for node in G.nodes()]
-    nx.draw(G, edge_color = colors, node_color = markers, with_labels=True)
+    colors = ['red' if edge in bfs else 'blue' for edge in graph.edges()]
+    markers = ['green' if node in [source,target] else 'blue' for node in graph.nodes()]
+    nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
     plt.savefig("example_bfs.png") #or use plt.show() to display
     plt.show()
 
-    # dfs = mydfs(G, source, target)
+    # driver code for dfs:
+    # dfs = mydfs(graph, source, target)
     # print(dfs)
-    # colors = ['red' if edge in dfs else 'blue' for edge in G.edges()]
-    # markers = ['green' if node in [source, target] else 'blue' for node in G.nodes()]
-    # nx.draw(G, edge_color = colors, node_color = markers, with_labels=True)
+    # colors = ['red' if edge in dfs else 'blue' for edge in graph.edges()]
+    # markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
+    # nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
     # plt.savefig("example_dfs.png") #or use plt.show() to display
+    # plt.show()
 
 def mybfs(G, source, target):
     """
@@ -66,6 +68,8 @@ def mybfs(G, source, target):
                 queue.append(neighbor)
                 if neighbor == target:
                     break
+            if target not in parents:
+                return()
 
     path = [target]
     while parents[target] is not None:
@@ -96,6 +100,23 @@ def myastar(G, source, target):
     """
     Return the list of nodes in the path and total cost like ([1,2,3],9)
     """
+    closed_list = []
+    open_list = []
+
+    while len(open_list) > 0:
+        p = heapq.heappop(open_list)
+
+        i = p[1]
+        j = p[2]
+        closed_list[i][j] = True
+
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0),
+                      (1, 1), (1, -1), (-1, 1), (-1, -1)]
+        for dir in directions:
+            new_i = i + dir[0]
+            new_j = j + dir[1]
+
+
     pass
 
 ### Do NOT remove the following lines of code
