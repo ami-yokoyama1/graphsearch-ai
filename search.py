@@ -1,10 +1,14 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 import random
+from itertools import count
 import csv 
 import pandas as pd
 from collections import deque, defaultdict
 import heapq
+from heapq import heappop, heappush
+from networkx.algorithms.shortest_paths.weighted import _weight_function
+
 
 """
 These are Function Headers
@@ -30,17 +34,20 @@ def main():
     # prints all edges sourced from Fremont:
     # print(list(nx.bfs_edges(graph, source = 'Fremont')))
 
-    source = 'Fremont'
-    target = 'Ballard'
-    bfs = mybfs(graph, source, target)
-    print(bfs)
-    colors = ['red' if edge in bfs else 'blue' for edge in graph.edges()]
-    markers = ['green' if node in [source,target] else 'blue' for node in graph.nodes()]
-    nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
-    plt.savefig("example_bfs.png") #or use plt.show() to display
-    plt.show()
+    # driver code for bfs:
+    # source = 'Fremont'
+    # target = 'Ballard'
+    # bfs = mybfs(graph, source, target)
+    # print(bfs)
+    # colors = ['red' if edge in bfs else 'blue' for edge in graph.edges()]
+    # markers = ['green' if node in [source,target] else 'blue' for node in graph.nodes()]
+    # nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
+    # plt.savefig("example_bfs.png") #or use plt.show() to display
+    # plt.show()
 
     # driver code for dfs:
+    # source = 'Fremont'
+    # target = 'Ballard'
     # dfs = mydfs(graph, source, target)
     # print(dfs)
     # colors = ['red' if edge in dfs else 'blue' for edge in graph.edges()]
@@ -48,6 +55,17 @@ def main():
     # nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
     # plt.savefig("example_dfs.png") #or use plt.show() to display
     # plt.show()
+
+    # driver code for astar:
+    source = 'Fremont'
+    target = 'Ballard'
+    astar = myastar(graph, source, target)
+    print(astar)
+    colors = ['red' if edge in astar else 'blue' for edge in graph.edges()]
+    markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
+    nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
+    plt.savefig("example_astar.png") #or use plt.show() to display
+    plt.show()
 
 def mybfs(G, source, target):
     """
@@ -96,28 +114,75 @@ def mydfs(G, source, target):
     
     return path
 
-def myastar(G, source, target):
+@nx._dispatchable(edge_attrs="weight", preserve_node_attrs="heuristic")
+def myastar(G, source, target, heuristic=None, weight="weight", *, cutoff=None):
     """
     Return the list of nodes in the path and total cost like ([1,2,3],9)
     """
-    closed_list = []
-    open_list = []
+    if source not in G or target not in G:
+        msg = f"Either source {source} or target {target} is not in G"
+        raise nx.NodeNotFound(msg)
 
-    while len(open_list) > 0:
-        p = heapq.heappop(open_list)
+    if heuristic is None:
+        # The default heuristic is h=0 - same as Dijkstra's algorithm
+        def heuristic(u, v):
+            return 0
 
-        i = p[1]
-        j = p[2]
-        closed_list[i][j] = True
+    push = heappush
+    pop = heappop
+    weight = _weight_function(G, weight)
 
-        directions = [(0, 1), (0, -1), (1, 0), (-1, 0),
-                      (1, 1), (1, -1), (-1, 1), (-1, -1)]
-        for dir in directions:
-            new_i = i + dir[0]
-            new_j = j + dir[1]
+    G_succ = G._adj
 
+    c = count()
+    queue = [(0, next(c), source, 0, None)]
 
-    pass
+    enqueued = {}
+    explored = {}
+
+    while queue:
+        _, __, curnode, dist, parent = pop(queue)
+
+        if curnode == target:
+            path = [curnode]
+            node = parent
+            while node is not None:
+                path.append(node)
+                node = explored[node]
+            path.reverse()
+            return path, dist
+
+        if curnode in explored:
+            if explored[curnode] is None:
+                continue
+
+            # Skip bad paths that were enqueued before finding a better one
+            qcost, h = enqueued[curnode]
+            if qcost < dist:
+                continue
+
+        explored[curnode] = parent
+
+        for neighbor, w in G_succ[curnode].items():
+            cost = weight(curnode, neighbor, w)
+            if cost is None:
+                continue
+            ncost = dist + cost
+            if neighbor in enqueued:
+                qcost, h = enqueued[neighbor]
+                if qcost <= ncost:
+                    continue
+            else:
+                h = heuristic(neighbor, target)
+
+            if cutoff and ncost + h > cutoff:
+                continue
+
+            enqueued[neighbor] = ncost, h
+            push(queue, (ncost + h, next(c), neighbor, ncost, curnode))
+    raise nx.NetworkXNoPath(f"Node {target} not reachable from {source}")
+
+    # pass
 
 ### Do NOT remove the following lines of code
 if __name__ == "__main__":
