@@ -67,7 +67,7 @@ def main():
     colors = ['red' if edge in dfs else 'blue' for edge in graph.edges()]
     markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
     fig, axe = plt.subplots(figsize=(12, 7))
-    axe.set_title(f"DFS: Total cost of the final path: {len(dfs)-1}", loc='right')
+    axe.set_title(f"DFS: Total cost of the final path: {dfs[1]}", loc='right')
     nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
     plt.savefig("example_dfs.png")
     # plt.show()
@@ -79,7 +79,7 @@ def main():
     colors = ['red' if edge in dfs else 'blue' for edge in graph.edges()]
     markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
     fig, axe = plt.subplots(figsize=(12, 7))
-    axe.set_title(f"DFS: Total cost of the final path: {len(dfs)-1}", loc='right')
+    axe.set_title(f"DFS: Total cost of the final path: {dfs[1]}", loc='right')
     nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
     plt.savefig("dfs.wm.png")
 
