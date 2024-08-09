@@ -125,8 +125,7 @@ Update the README to answer the following questions:
     ```text
     Breadth-first search (BFS) is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root (or some arbitrary node of a graph, sometimes referred to as a 'search key') and explores the neighbor nodes first, before moving to the next level neighbours. It uses a queue data structure to keep track of the next node to visit. It is used to find the shortest path between two nodes in a graph.
     ```
-
-    Summarize and then explain what ChatGPT gets right about BFS and what it misses out on.
+    Summarize and then explain what ChatGPT gets right about BFS and what it misses out on. 
 
     ChatGPT correctly describes the basic steps of BFS, that the search explores some data structures and prioritizes exploring nodes at the same level before moving onto deeper level. However, ChatGPT misses the fact that BFS can be used to find the shortest path between two nodes in an unweighted graph, so the search is not applicable to graphs of all conditions.
 
@@ -142,14 +141,21 @@ Update the README to answer the following questions:
 
     Explain why ChatGPT is completely wrong.
 
+    Binary search tree has no cycles, which means it is not necessary to keep track of nodes that have been visited. BFS keeps track of visited nodes, so it is inefficient to use BFS on a binary search tree.
+
 3. Explain when greedy searching can perform worse than uninformed search. Create a graph that demonstrates this and include the generated images below. _Hint_ you may need to create some fake data but in the same format that you used to encode the Seattle data.
 
-Greedy search can perform worse than uninformed search when greedy fails to search through the node that would deliver optimal option 
-in the long run, as greedy search could eliminate certain nodes early on and does not get to explore all nodes.
+    Greedy search can perform worse than uninformed search when greedy fails to search through the node that would deliver optimal choice 
+    in the long run, as greedy search could eliminate certain nodes early on and does not explore all nodes.
 
 4. Try reversing directions and going from Columbia City to Ballard. Do you get the same resulting paths for each of the algorithms? Explain why or why not and show the new images below.
 
+    ![Alt text](bfs.cb.png)
+    ![Alt text](dfs.cb.png)
+    ![Alt text](astar.cb.png)
+
+    Even though the BFS and A* function resulted in the same paths, DFS path got longer from 8 to 12. DFS result worsened because there are more branches that the algorithm can explore when going from Columbia City to Ballard than the other way around. Since DFS explores as far as possible along one branch, and there are more branches to cover, DFS performed worse.
+
 5. What are your thoughts about this homework? Did you find any parts particularly challenging? What changes would you make to improve the learning experience for future students?
 
-Since I'm not experienced using networkx graphs, I got stuck pretty early on when I needed to create a graph based on the given data. 
-I wish there are more resources provided to deepen understanding of how to use networkx and techniques relevant to this homework.
+    Since I'm not experienced using networkx graphs, I got stuck pretty early on when I needed to create a graph based on the given data. I wish there are more resources provided to deepen understanding of how to use networkx and techniques relevant to this homework. Claire was a great help to make progress in this assignment.

@@ -59,6 +59,17 @@ def main():
     nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
     plt.savefig("bfs.wm.png")
 
+    source = 'Columbia City'
+    target = 'Ballard'
+    bfs = mybfs(graph, source, target)
+    print(bfs)
+    colors = ['red' if edge in bfs else 'blue' for edge in graph.edges()]
+    markers = ['green' if node in [source,target] else 'blue' for node in graph.nodes()]
+    fig, axe = plt.subplots(figsize=(12, 7))
+    axe.set_title(f"BFS: Total cost of the final path: {len(bfs)-1}", loc='right')
+    nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
+    plt.savefig("bfs.cb.png")
+
     # driver code for dfs:
     source = 'Ballard'
     target = 'Columbia City'
@@ -83,6 +94,17 @@ def main():
     nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
     plt.savefig("dfs.wm.png")
 
+    source = 'Columbia City'
+    target = 'Ballard'
+    dfs = mydfs(graph, source, target)
+    print(dfs)
+    colors = ['red' if edge in dfs else 'blue' for edge in graph.edges()]
+    markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
+    fig, axe = plt.subplots(figsize=(12, 7))
+    axe.set_title(f"DFS: Total cost of the final path: {dfs[1]}", loc='right')
+    nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
+    plt.savefig("dfs.cb.png")
+
     # driver code for astar:
     source = 'Ballard'
     target = 'Columbia City'
@@ -106,6 +128,17 @@ def main():
     axe.set_title(f"A*: Total cost of the final path: {astar[1]}", loc='right')
     nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
     plt.savefig("astar.wm.png")
+
+    source = 'Columbia City'
+    target = 'Ballard'
+    astar = myastar(graph, source, target)
+    print(astar)
+    colors = ['red' if edge in astar else 'blue' for edge in graph.edges()]
+    markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
+    fig, axe = plt.subplots(figsize=(12, 7))
+    axe.set_title(f"A*: Total cost of the final path: {astar[1]}", loc='right')
+    nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
+    plt.savefig("astar.cb.png")
 
 def mybfs(G, source, target):
     """
