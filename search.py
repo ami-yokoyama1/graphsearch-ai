@@ -36,38 +36,43 @@ def main():
     # print(list(nx.bfs_edges(graph, source = 'Fremont')))
 
     # driver code for bfs:
-    # source = 'Fremont'
-    # target = 'Ballard'
+    # source = 'Ballard'
+    # target = 'Columbia City'
     # bfs = mybfs(graph, source, target)
     # print(bfs)
     # colors = ['red' if edge in bfs else 'blue' for edge in graph.edges()]
     # markers = ['green' if node in [source,target] else 'blue' for node in graph.nodes()]
-    # nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
+    # fig, axe = plt.subplots(figsize=(12, 7))
+    # axe.set_title(f"BFS: Total cost of the final path: {len(bfs)-1}", loc='right')
+    # nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
     # plt.savefig("example_bfs.png") #or use plt.show() to display
     # plt.show()
 
     # driver code for dfs:
-    # source = 'Fremont'
-    # target = 'Ballard'
-    # dfs = mydfs(graph, source, target)
-    # print(dfs)
-    # colors = ['red' if edge in dfs else 'blue' for edge in graph.edges()]
-    # markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
-    # nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
-    # plt.savefig("example_dfs.png") #or use plt.show() to display
-    # plt.show()
-
-    # driver code for astar:
     source = 'Ballard'
     target = 'Columbia City'
-    astar = myastar(graph, source, target)
-    print(astar)
-    colors = ['red' if edge in astar else 'blue' for edge in graph.edges()]
+    dfs = mydfs(graph, source, target)
+    print(dfs)
+    colors = ['red' if edge in dfs else 'blue' for edge in graph.edges()]
     markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
-    nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
-    plt.savefig("example_astar.png") #or use plt.show() to display
+    fig, axe = plt.subplots(figsize=(12, 7))
+    axe.set_title(f"DFS: Total cost of the final path: {len(dfs)-1}", loc='right')
+    nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
+    plt.savefig("example_dfs.png") #or use plt.show() to display
     plt.show()
-    plt.figtext(0.5, 0.01, f"Total cost of the final path: {5}", ha="center", fontsize=10)
+
+    # driver code for astar:
+    # source = 'Ballard'
+    # target = 'Columbia City'
+    # astar = myastar(graph, source, target)
+    # print(astar)
+    # colors = ['red' if edge in astar else 'blue' for edge in graph.edges()]
+    # markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
+    # fig, axe = plt.subplots(figsize=(12, 7))
+    # axe.set_title(f"A*: Total cost of the final path: {astar[1]}", loc='right')
+    # nx.draw(graph, ax = axe, edge_color = colors, node_color = markers, with_labels=True)
+    # plt.savefig("example_astar.png") #or use plt.show() to display
+    # plt.show()
 
 def mybfs(G, source, target):
     """
@@ -91,9 +96,8 @@ def mybfs(G, source, target):
             if neighbor not in parents:
                 parents[neighbor] = node
                 queue.append(neighbor)
-                print(f"Added neighbor {neighbor} to the queue")
-                # if neighbor == target:
-                #     break
+                # print(f"Added neighbor {neighbor} to the queue")
+               
     if target not in parents:
         print(f"Target '{target}' not reachable from '{source}'")
         return()
@@ -103,7 +107,7 @@ def mybfs(G, source, target):
         path.insert(0, parents[target])
         target = parents[target]
 
-    print(f"Path found: {path}")
+    print(f"Path found: {path}, {len(path)-1}")
     return path
 
 def mydfs(G, source, target):
