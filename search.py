@@ -14,7 +14,7 @@ from networkx.algorithms.shortest_paths.weighted import _weight_function
 These are Function Headers
 Complete the functions to ensure they return expected results
 Replace these comments with documenation about the program
-@author [add your name]
+@author [Ami Yokoyama]
 """
 
 def main():
@@ -35,15 +35,15 @@ def main():
     # print(list(nx.bfs_edges(graph, source = 'Fremont')))
 
     # driver code for bfs:
-    # source = 'Fremont'
-    # target = 'Ballard'
-    # bfs = mybfs(graph, source, target)
-    # print(bfs)
-    # colors = ['red' if edge in bfs else 'blue' for edge in graph.edges()]
-    # markers = ['green' if node in [source,target] else 'blue' for node in graph.nodes()]
-    # nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
-    # plt.savefig("example_bfs.png") #or use plt.show() to display
-    # plt.show()
+    source = 'Fremont'
+    target = 'Ballard'
+    bfs = mybfs(graph, source, target)
+    print(bfs)
+    colors = ['red' if edge in bfs else 'blue' for edge in graph.edges()]
+    markers = ['green' if node in [source,target] else 'blue' for node in graph.nodes()]
+    nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
+    plt.savefig("example_bfs.png") #or use plt.show() to display
+    plt.show()
 
     # driver code for dfs:
     # source = 'Fremont'
@@ -57,15 +57,15 @@ def main():
     # plt.show()
 
     # driver code for astar:
-    source = 'Fremont'
-    target = 'Ballard'
-    astar = myastar(graph, source, target)
-    print(astar)
-    colors = ['red' if edge in astar else 'blue' for edge in graph.edges()]
-    markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
-    nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
-    plt.savefig("example_astar.png") #or use plt.show() to display
-    plt.show()
+    # source = 'Fremont'
+    # target = 'Ballard'
+    # astar = myastar(graph, source, target)
+    # print(astar)
+    # colors = ['red' if edge in astar else 'blue' for edge in graph.edges()]
+    # markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
+    # nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
+    # plt.savefig("example_astar.png") #or use plt.show() to display
+    # plt.show()
 
 def mybfs(G, source, target):
     """
@@ -80,14 +80,16 @@ def mybfs(G, source, target):
     queue = deque([source])
     while queue:
         node = queue.popleft()
+        if node == target:
+            break
         for neighbor in G[node]:
             if neighbor not in parents:
                 parents[neighbor] = node
                 queue.append(neighbor)
-                if neighbor == target:
-                    break
-            if target not in parents:
-                return()
+                # if neighbor == target:
+                #     break
+    if target not in parents:
+        return()
 
     path = [target]
     while parents[target] is not None:
@@ -113,6 +115,10 @@ def mydfs(G, source, target):
             queue.extend(G[node])
     
     return path
+
+def euclidean_distance(G, source, target):
+    
+    pass
 
 @nx._dispatchable(edge_attrs="weight", preserve_node_attrs="heuristic")
 def myastar(G, source, target, heuristic=None, weight="weight", *, cutoff=None):
