@@ -8,6 +8,7 @@ from collections import deque, defaultdict
 import heapq
 from heapq import heappop, heappush
 from networkx.algorithms.shortest_paths.weighted import _weight_function
+import math
 
 
 """
@@ -23,7 +24,7 @@ def main():
         routes = pd.read_csv(csvfile, header= 0, usecols = ['Source', 'Dest', 'distance'])
 
     graph = nx.from_pandas_edgelist(routes, source = 'Source', target = 'Dest',
-        edge_attr = 'distance', create_using = nx.DiGraph())
+        edge_attr = 'distance', create_using = nx.Graph())
     
     # graph of the entire map:
     # plt.figure(figsize=(10, 9))
@@ -35,15 +36,15 @@ def main():
     # print(list(nx.bfs_edges(graph, source = 'Fremont')))
 
     # driver code for bfs:
-    source = 'Fremont'
-    target = 'Ballard'
-    bfs = mybfs(graph, source, target)
-    print(bfs)
-    colors = ['red' if edge in bfs else 'blue' for edge in graph.edges()]
-    markers = ['green' if node in [source,target] else 'blue' for node in graph.nodes()]
-    nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
-    plt.savefig("example_bfs.png") #or use plt.show() to display
-    plt.show()
+    # source = 'Fremont'
+    # target = 'Ballard'
+    # bfs = mybfs(graph, source, target)
+    # print(bfs)
+    # colors = ['red' if edge in bfs else 'blue' for edge in graph.edges()]
+    # markers = ['green' if node in [source,target] else 'blue' for node in graph.nodes()]
+    # nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
+    # plt.savefig("example_bfs.png") #or use plt.show() to display
+    # plt.show()
 
     # driver code for dfs:
     # source = 'Fremont'
@@ -57,15 +58,16 @@ def main():
     # plt.show()
 
     # driver code for astar:
-    # source = 'Fremont'
-    # target = 'Ballard'
-    # astar = myastar(graph, source, target)
-    # print(astar)
-    # colors = ['red' if edge in astar else 'blue' for edge in graph.edges()]
-    # markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
-    # nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
-    # plt.savefig("example_astar.png") #or use plt.show() to display
-    # plt.show()
+    source = 'Ballard'
+    target = 'Columbia City'
+    astar = myastar(graph, source, target)
+    print(astar)
+    colors = ['red' if edge in astar else 'blue' for edge in graph.edges()]
+    markers = ['green' if node in [source, target] else 'blue' for node in graph.nodes()]
+    nx.draw(graph, edge_color = colors, node_color = markers, with_labels=True)
+    plt.savefig("example_astar.png") #or use plt.show() to display
+    plt.show()
+    plt.figtext(0.5, 0.01, f"Total cost of the final path: {5}", ha="center", fontsize=10)
 
 def mybfs(G, source, target):
     """
@@ -78,17 +80,22 @@ def mybfs(G, source, target):
 
     parents = {source: None}
     queue = deque([source])
+    print(f"Starting BFS from '{source}' to '{target}'")
+    print(f"Initial queue: {list(queue)}")
     while queue:
         node = queue.popleft()
         if node == target:
+            print(f"Target '{target}' found!")
             break
         for neighbor in G[node]:
             if neighbor not in parents:
                 parents[neighbor] = node
                 queue.append(neighbor)
+                print(f"Added neighbor {neighbor} to the queue")
                 # if neighbor == target:
                 #     break
     if target not in parents:
+        print(f"Target '{target}' not reachable from '{source}'")
         return()
 
     path = [target]
@@ -96,6 +103,7 @@ def mybfs(G, source, target):
         path.insert(0, parents[target])
         target = parents[target]
 
+    print(f"Path found: {path}")
     return path
 
 def mydfs(G, source, target):
@@ -117,8 +125,9 @@ def mydfs(G, source, target):
     return path
 
 def euclidean_distance(G, source, target):
-    
-    pass
+    x1, y1 = G.nodes[source]
+    x2, y2 = G.nodes[target]
+    return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 @nx._dispatchable(edge_attrs="weight", preserve_node_attrs="heuristic")
 def myastar(G, source, target, heuristic=None, weight="weight", *, cutoff=None):
